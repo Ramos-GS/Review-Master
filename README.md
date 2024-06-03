@@ -1,7 +1,7 @@
 # Review-Master
 
 
-# Plataforma de Reviews de Filmes, Séries e Jogos
+## Plataforma de Reviews de Filmes, Séries e Jogos
 
 ## Descrição
 
@@ -36,7 +36,7 @@ Este projeto é uma API para uma plataforma de reviews de filmes, séries e jogo
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/Ramos-GS/ReviwsApi.git
+git clone https://github.com/Ramos-GS/Review-Master.git
 cd reviws
 ```
 
