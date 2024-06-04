@@ -10,7 +10,7 @@ class Movie(models.Model):
 
 
 class Review(models.Model):
-    movie_id = models.IntegerField()  # ID do filme da API externa
+    movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     comment = models.TextField()
@@ -18,5 +18,4 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.user.username} - {self.movie_id} - {self.rating} stars'
-
+        return f'{self.user.username} - {self.movie.title} - {self.rating} stars'

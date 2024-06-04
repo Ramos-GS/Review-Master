@@ -51,28 +51,25 @@ def movie_detail(request, movie_id):
     movie = get_movie_details_from_api(movie_id)
     return render(request, 'movie_detail.html', {'movie': movie})
 
-def get_movie_details_from_api(movie_id):
-    api_key = 'YOUR_TMDB_API_KEY' 
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=17bab99ff00134f6961640d0edf32d8e&language=en-US'
+def get_movie_details_from_api(movie_id): 
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=17bab99ff00134f6961640d0edf32d8e&language=pt-BR'
     response = requests.get(url)
     return response.json()
     
-
 @login_required
 def add_review(request, movie_id):
-    movie = get_movie_details_from_api(movie_id)
+    movie = get_object_or_404(Movie, pk=movie_id)
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.movie_id = movie_id  
+            review.movie = movie
             review.user = request.user
             review.save()
             return redirect('movie_detail', movie_id=movie_id)
     else:
         form = ReviewForm()
     return render(request, 'add_review.html', {'form': form, 'movie': movie})
-
 
 @login_required
 def edit_review(request, movie_id):
