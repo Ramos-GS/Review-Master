@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movies</title>
+</head>
+<body>
+    <h1>Movies</h1>
+    <form method="get" action="{% url 'movie_list' %}">
+        <input type="text" name="query" placeholder="Search for a movie...">
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {% for movie in movies %}
+            <li>
+                <a href="{% url 'movie_detail' movie.id %}">{{ movie.title }}</a>
+                <p>{{ movie.overview }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
