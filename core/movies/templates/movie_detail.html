@@ -4,24 +4,149 @@
 <html>
 <head>
     <title>{{ movie.title }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #4ae2df, #1ae1e8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+        }
+        h1 {
+            font-size: 32px;
+            color: #333333;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        h1::after {
+            content: '';
+            width: 50px;
+            height: 4px;
+            background-color: #4ae2df;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        p {
+            font-size: 18px;
+            color: #666666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .review-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .review-user {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .review-rating {
+            color: gold;
+            margin-bottom: 5px;
+        }
+        .review-comment {
+            font-size: 14px;
+            color: #666666;
+        }
+        .review-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .review-actions a {
+            color: #4ae2df;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .review-actions a:hover {
+            color: #4ae2df;
+        }
+        .add-review {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4ae2df;
+            color: #ffffff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        .add-review:hover {
+            background-color:#33bab8;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ movie.title }}</h1>
-    <p>{{ movie.overview }}</p>
-    <h2>Reviews</h2>
-    <ul>
-        {% for review in movie.reviews.all %}
-            <li>
-                {{ review.user.username }}: 
-                {% for _ in review.rating|make_range %}
-                    <span style="color: gold;">★</span>
-                {% endfor %}
-                - {{ review.comment }}
-                <a href="{% url 'edit_review' review.movie_id %}">Edit</a>
-                <a href="{% url 'delete_review' review.movie_id %}">Delete</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'add_review' movie.id %}">Add Review</a>
+    <div class="container">
+        <h1>{{ movie.title }}</h1>
+        <p>{{ movie.overview }}</p>
+        <h2>Reviews</h2>
+        <ul>
+            {% for review in movie.reviews.all %}
+                <li>
+                    <div class="review-details">
+                        <div class="review-user">{{ review.user.username }}</div>
+                        <div class="review-rating">
+                            {% for _ in review.rating|make_range %}
+                                <i class="fas fa-star"></i>
+                            {% endfor %}
+                        </div>
+                        <div class="review-comment">{{ review.comment }}</div>
+                    </div>
+                    <div class="review-actions">
+                        <a href="{% url 'edit_review' review.movie_id %}">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{% url 'delete_review' review.movie_id %}">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <a class="add-review" href="{% url 'add_review' movie.id %}"><i class="fas fa-plus"></i> Add Review</a>
+    </div>
 </body>
 </html>
