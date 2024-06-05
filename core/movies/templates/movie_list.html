@@ -2,20 +2,121 @@
 <html>
 <head>
     <title>Movies</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #3bbcc7, #1ae1e8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        h1::after {
+            content: '';
+            width: 50px;
+            height: 4px;
+            background-color: #4ae2df;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #ff7e5f;
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 126, 95, 0.2);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4ae2df;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #33bab8;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        a {
+            font-size: 20px;
+            color: #4ae2df;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        p {
+            font-size: 14px;
+            color: #666666;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Movies</h1>
-    <form method="get" action="{% url 'movie_list' %}">
-        <input type="text" name="query" placeholder="Search for a movie...">
-        <button type="submit">Search</button>
-    </form>
-    <ul>
-        {% for movie in movies %}
-            <li>
-                <a href="{% url 'movie_detail' movie.id %}">{{ movie.title }}</a>
-                <p>{{ movie.overview }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Movies</h1>
+        <form method="get" action="{% url 'movie_list' %}">
+            <input type="text" name="query" placeholder="Search for a movie...">
+            <button type="submit">Search</button>
+        </form>
+        <ul>
+            {% for movie in movies %}
+                <li>
+                    <a href="{% url 'movie_detail' movie.id %}">{{ movie.title }}</a>
+                    <p>{{ movie.overview }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
