@@ -75,6 +75,8 @@
             padding: 0;
         }
         li {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
             padding: 15px;
             background-color: #f7f7f7;
@@ -95,10 +97,17 @@
         a:hover {
             text-decoration: underline;
         }
+        .movie-info {
+            margin-left: 20px;
+        }
         p {
             font-size: 14px;
             color: #666666;
             margin-top: 10px;
+        }
+        img {
+            max-width: 100px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -112,8 +121,15 @@
         <ul>
             {% for movie in movies %}
                 <li>
-                    <a href="{% url 'movie_detail' movie.id %}">{{ movie.title }}</a>
-                    <p>{{ movie.overview }}</p>
+                    {% if movie.poster_path %}
+                        <img src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}" alt="{{ movie.title }}">
+                    {% else %}
+                        <img src="default_image.jpg" alt="No Image">
+                    {% endif %}
+                    <div class="movie-info">
+                        <a href="{% url 'movie_detail' movie.id %}">{{ movie.title }}</a>
+                        <p>{{ movie.overview }}</p>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
