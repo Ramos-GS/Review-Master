@@ -1,5 +1,3 @@
-{% load movies_extras %}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,11 +126,6 @@
                 <li>
                     <div class="review-details">
                         <div class="review-user">{{ review.user.username }}</div>
-                        <div class="review-rating">
-                            {% for _ in review.rating|make_range %}
-                                <i class="fas fa-star"></i>
-                            {% endfor %}
-                        </div>
                         <div class="review-comment">{{ review.comment }}</div>
                     </div>
                     <div class="review-actions">
@@ -144,6 +137,8 @@
                         </a>
                     </div>
                 </li>
+            {% empty %}
+                <li>No reviews yet. Be the first to review!</li>
             {% endfor %}
         </ul>
         <a class="add-review" href="{% url 'add_review' movie.id %}"><i class="fas fa-plus"></i> Add Review</a>
