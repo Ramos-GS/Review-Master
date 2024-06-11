@@ -7,8 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .utils import get_movies_from_api, get_movie_details_from_api
 from .forms import ReviewForm, UserRegistrationForm 
 import requests
-
-
+from django.http import HttpResponseForbidden
 
 def register(request):
     if request.method == 'POST':
@@ -49,21 +48,26 @@ def movie_list(request):
 
 def movie_detail(request, movie_id):
     movie = get_movie_details_from_api(movie_id)
-    return render(request, 'movie_detail.html', {'movie': movie})
+    reviews = Review.objects.filter(movie_id=movie_id)
+    return render(request, 'movie_detail.html', {'movie': movie, 'reviews': reviews})
 
-def get_movie_details_from_api(movie_id): 
+def get_movie_details_from_api(movie_id):
+    api_key = 'YOUR_TMDB_API_KEY'
     url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=17bab99ff00134f6961640d0edf32d8e&language=pt-BR'
     response = requests.get(url)
-    return response.json()
-    
+    movie = response.json()
+    movie['id'] = movie_id  # Certifique-se de que o movie_id está presente
+    return movie
+
+
 @login_required
 def add_review(request, movie_id):
-    movie = get_object_or_404(Movie, pk=movie_id)
+    movie = get_movie_details_from_api(movie_id)
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.movie = movie
+            review.movie_id = movie_id  
             review.user = request.user
             review.save()
             return redirect('movie_detail', movie_id=movie_id)
@@ -72,20 +76,24 @@ def add_review(request, movie_id):
     return render(request, 'add_review.html', {'form': form, 'movie': movie})
 
 @login_required
-def edit_review(request, movie_id):
-    review = get_object_or_404(Review, movie_id=movie_id)
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    if request.user != review.user and not request.user.is_staff:
+        return HttpResponseForbidden()
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect('movie_detail', movie_id=review.movie.movie_id)
+            return redirect('movie_detail', movie_id=review.movie_id)
     else:
         form = ReviewForm(instance=review)
     return render(request, 'edit_review.html', {'form': form})
 
 @login_required
-def delete_review(request, movie_id):
-    review = get_object_or_404(Review, movie_id=movie_id)
-    movie_movie_id = review.movie.movie_id
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    if request.user != review.user and not request.user.is_staff:
+        return HttpResponseForbidden()
+    movie_id = review.movie_id
     review.delete()
-    return redirect('movie_detail', movie_id=movie_movie_id)
+    return redirect('movie_detail', movie_id=movie_id)
