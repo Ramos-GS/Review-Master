@@ -49,7 +49,9 @@ def movie_list(request):
 
 def movie_detail(request, movie_id):
     movie = get_movie_details_from_api(movie_id)
-    return render(request, 'movie_detail.html', {'movie': movie})
+    reviews = Review.objects.filter(movie_id=movie_id)
+    return render(request, 'movie_detail.html', {'movie': movie, 'reviews': reviews})
+
 
 def get_movie_details_from_api(movie_id):
     api_key = 'YOUR_TMDB_API_KEY' 
