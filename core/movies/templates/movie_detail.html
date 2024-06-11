@@ -14,9 +14,14 @@
         <ul>
             {% for review in reviews %}
                 <li>
-                    <strong>{{ review.user.username }}:</strong> {{ review.text }}
+                    <strong>{{ review.user.username }}:</strong> {{ review.comment }}
                     <br>
-                    <em>Rating: {{ review.rating }}/10</em>
+                    <em>Rating: {{ review.rating }}/5</em>
+                    {% if request.user == review.user or request.user.is_staff %}
+                        <br>
+                        <a href="{% url 'edit_review' review_id=review.id %}">Edit</a> |
+                        <a href="{% url 'delete_review' review_id=review.id %}">Delete</a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
