@@ -10,14 +10,15 @@ class UserRegistrationForm(UserCreationForm):
 
 class ReviewForm(forms.ModelForm):
     RATING_CHOICES = [
-        (1, '1 Star'),
-        (2, '2 Stars'),
-        (3, '3 Stars'),
-        (4, '4 Stars'),
-        (5, '5 Stars'),
+        (1, '⭐'),
+        (2, '⭐⭐'),
+        (3, '⭐⭐⭐'),
+        (4, '⭐⭐⭐⭐'),
+        (5, '⭐⭐⭐⭐⭐'),
     ]
 
-    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.RadioSelect)
+    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select)
+    comment = forms.CharField(widget=forms.TextInput(attrs={'maxlength': 200}))
 
     class Meta:
         model = Review
