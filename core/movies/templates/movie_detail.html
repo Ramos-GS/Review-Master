@@ -105,6 +105,19 @@
         .review-links a:hover {
             background: #239997;
         }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            background: #4ae2df;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .back-button:hover {
+            background: #239997;
+        }
     </style>
 </head>
 <body>
@@ -138,6 +151,9 @@
         {% else %}
             <p><a href="{% url 'login' %}">Log in</a> to add a review.</p>
         {% endif %}
+        <a href="#" class="back-button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
     </div>
 </body>
 </html>
