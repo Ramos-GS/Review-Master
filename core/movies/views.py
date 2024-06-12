@@ -8,6 +8,13 @@ from .utils import get_movies_from_api, get_movie_details_from_api
 from .forms import ReviewForm, UserRegistrationForm 
 import requests
 from django.http import HttpResponseForbidden
+from dotenv import load_dotenv
+import os
+
+# load_dotenv('./.env')
+load_dotenv('.env')
+
+api_key = os.environ['TMDB_API_KEY']
 
 def register(request):
     if request.method == 'POST':
@@ -53,12 +60,20 @@ def movie_detail(request, movie_id):
 
 def get_movie_details_from_api(movie_id):
     api_key = 'YOUR_TMDB_API_KEY'
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=17bab99ff00134f6961640d0edf32d8e&language=pt-BR'
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=pt-BR'
     response = requests.get(url)
     movie = response.json()
     movie['id'] = movie_id  # Certifique-se de que o movie_id está presente
     return movie
 
+def get_trailer(movie_id):
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key={api_key}&language=pt-BR'
+    response = requests.get(url)
+    videos = response.json().get('results', [])
+    for video in videos:
+        if video['site'] == 'YouTube' and video['type'] == 'Trailer':
+            return f'https://www.youtube.com/embed/{video["key"]}'
+    return None
 
 @login_required
 def add_review(request, movie_id):
