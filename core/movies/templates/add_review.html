@@ -111,6 +111,14 @@
         button i {
             margin-right: 10px;
         }
+        .back-button {
+            margin-top: 15px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .back-button:hover {
+            background-color: #e2e6ea;
+        }
     </style>
 </head>
 <body>
@@ -123,6 +131,9 @@
                 <i class="fas fa-paper-plane"></i> Submit Review
             </button>
         </form>
+        <button class="back-button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
     </div>
 </body>
 </html>
