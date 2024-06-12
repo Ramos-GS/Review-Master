@@ -65,10 +65,18 @@
   <body>
     <div class="container">
       <h1>Bem vindo ao Review Master</h1>
+
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">
+        <span class="icon">🚪🏃</span>
+        Logout
+      </a>
+      {% else %}
       <a href="{% url 'login' %}">
         <span class="icon">🔑</span>
         Login
       </a>
+      {% endif %}
       <a href="{% url 'movie_list' %}">
         <span class="icon">🎬</span>
         Movies
