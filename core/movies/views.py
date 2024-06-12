@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Movie, Review
 from django.contrib.auth.forms import UserCreationForm
-from .utils import get_movies_from_api, get_movie_details_from_api
+from .utils import get_movies_from_api, get_movie_details_from_api, get_trailer, get_watch_providers
 from .forms import ReviewForm, UserRegistrationForm 
 import requests
 from django.http import HttpResponseForbidden
@@ -57,24 +57,13 @@ def movie_list(request):
 def movie_detail(request, movie_id):
     movie = get_movie_details_from_api(movie_id)
     trailer_url = get_trailer(movie_id)
+    watch_providers = get_watch_providers(movie_id)
     reviews = Review.objects.filter(movie_id=movie_id)
-    return render(request, 'movie_detail.html', {'movie': movie, 'reviews': reviews, 'trailer_url': trailer_url})
+    return render(request, 'movie_detail.html', {'movie': movie, 'reviews': reviews, 'trailer_url': trailer_url, 'watch_providers': watch_providers})
 
-def get_movie_details_from_api(movie_id):
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=pt-BR'
-    response = requests.get(url)
-    movie = response.json()
-    movie['id'] = movie_id  # Certifique-se de que o movie_id está presente
-    return movie
 
-def get_trailer(movie_id):
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key={api_key}&language=pt-BR'
-    response = requests.get(url)
-    videos = response.json().get('results', [])
-    for video in videos:
-        if video['site'] == 'YouTube' and video['type'] == 'Trailer':
-            return f'https://www.youtube.com/embed/{video["key"]}'
-    return None
+
+
 
 @login_required
 def add_review(request, movie_id):
