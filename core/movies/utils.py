@@ -1,11 +1,17 @@
 import requests
 from .models import Movie
+from dotenv import load_dotenv
+import os
+
+load_dotenv('.env')
+
+api_key = os.environ['TMDB_API_KEY']
 
 def get_movies_from_api(query=None):
     if query:
-        url = f'https://api.themoviedb.org/3/search/movie?api_key=17bab99ff00134f6961640d0edf32d8e&language=pt-BR&query={query}'
+        url = f'https://api.themoviedb.org/3/search/movie?api_key={api_key}&language=pt-BR&query={query}'
     else:
-        url = f'https://api.themoviedb.org/3/movie/popular?api_key=17bab99ff00134f6961640d0edf32d8e&language=pt-BR&page=1'
+        url = f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=pt-BR&page=1'
     response = requests.get(url)
     data = response.json()
     movies = data['results']
@@ -26,6 +32,6 @@ def get_movies_from_api(query=None):
 
 
 def get_movie_details_from_api(movie_id):
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=17bab99ff00134f6961640d0edf32d8e&language=pt-BR'
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=pt-BR'
     response = requests.get(url)
     return response.json()
