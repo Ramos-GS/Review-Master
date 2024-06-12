@@ -3,9 +3,9 @@ from .models import Movie
 from dotenv import load_dotenv
 import os
 
-load_dotenv('.env')
+load_dotenv()
 
-api_key = os.environ['TMDB_API_KEY']
+api_key = os.environ.get('TMDB_API_KEY')
 
 def get_movies_from_api(query=None):
     if query:

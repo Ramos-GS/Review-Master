@@ -11,10 +11,11 @@ from django.http import HttpResponseForbidden
 from dotenv import load_dotenv
 import os
 
-# load_dotenv('./.env')
-load_dotenv('.env')
+# Carregando variáveis de ambiente do arquivo .env
+load_dotenv()
 
-api_key = os.environ['TMDB_API_KEY']
+# Obtendo a chave da API
+api_key = os.environ.get('TMDB_API_KEY')
 
 def register(request):
     if request.method == 'POST':
