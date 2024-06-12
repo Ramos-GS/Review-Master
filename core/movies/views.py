@@ -60,7 +60,6 @@ def movie_detail(request, movie_id):
     return render(request, 'movie_detail.html', {'movie': movie, 'reviews': reviews, 'trailer_url': trailer_url})
 
 def get_movie_details_from_api(movie_id):
-    api_key = 'YOUR_TMDB_API_KEY'
     url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=pt-BR'
     response = requests.get(url)
     movie = response.json()
