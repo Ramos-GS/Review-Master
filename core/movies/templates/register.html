@@ -7,7 +7,7 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: linear-gradient(135deg, #f6f7fb 0%, #e1e2e6 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,61 +16,45 @@
         }
         .register-container {
             background-color: #ffffff;
-            padding: 40px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 400px;
+            width: 350px;
             text-align: center;
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         .register-container h1 {
-            margin-bottom: 30px;
-            font-size: 28px;
+            margin-bottom: 20px;
+            font-size: 24px;
             color: #333333;
-            position: relative;
-        }
-        .register-container h1::after {
-            content: '';
-            width: 50px;
-            height: 4px;
-            background-color: #6a11cb;
-            display: block;
-            margin: 10px auto 0;
-            border-radius: 2px;
         }
         .register-container form {
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
         .register-container form p {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 16px;
+            color: #555;
+            width: 100%;
         }
         .register-container form input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #dddddd;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            outline: none;
         }
         .register-container form input:focus {
             border-color: #6a11cb;
-            outline: none;
-            box-shadow: 0 0 8px rgba(106, 17, 203, 0.2);
         }
         .register-container form button {
+            width: 100%;
             padding: 12px;
             background-color: #6a11cb;
             border: none;
@@ -84,27 +68,31 @@
             background-color: #4a0eab;
         }
         .register-container a {
-            display: block;
+            display: inline-block;
             margin-top: 20px;
             color: #6a11cb;
             text-decoration: none;
             font-size: 14px;
-            transition: color 0.3s ease;
         }
         .register-container a:hover {
-            color: #4a0eab;
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="register-container">
-        <h1>Register</h1>
+        <h1>Crie sua conta</h1>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
+            <p>Nome de usuário:</p>
+            <input type="text" name="username" required>
+            <p>Senha:</p>
+            <input type="password" name="password1" required>
+            <p>Confirme a senha:</p>
+            <input type="password" name="password2" required>
+            <button type="submit">Registrar</button>
         </form>
+        <a href="{% url 'login' %}">Já tem uma conta? Faça login aqui.</a>
     </div>
 </body>
 </html>
