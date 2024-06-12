@@ -80,10 +80,12 @@
     <div class="login-container">
         <h1>Bem-vindo de volta!</h1>
         <form method="post">
+            {% csrf_token %}
             <p>Nome de usuário:</p>
             <input type="text" name="username" required>
             <p>Senha:</p>
             <input type="password" name="password" required>
+            
             <button type="submit">Login</button>
         </form>
         <a href="{% url 'register' %}">Ainda não tem uma conta? Registre-se aqui.</a>
