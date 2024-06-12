@@ -9,36 +9,67 @@
     <style>
       body {
         font-family: "Roboto", sans-serif;
-        background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%);
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
         margin: 0;
         padding: 0;
         display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        color: #333;
+      }
+
+      nav {
+        background-color: #007bff;
+        padding: 10px 20px;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      nav h2 {
+        margin: 0;
+        font-size: 1.5em;
+      }
+
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin-left: 15px;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: #ffdd57;
+      }
+
+      .container {
+        flex: 1;
+        display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        color: #333;
+        text-align: center;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        margin: 20px;
+        background-image: url('https://www.transparenttextures.com/patterns/white-leather.png');
+      }
+
+      .container:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       }
 
       h1 {
         font-size: 2.5em;
-        color: #444;
+        color: #333;
         margin-bottom: 20px;
       }
 
-      .container {
-        text-align: center;
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s;
-      }
-
-      .container:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      }
-
-      a {
+      a.button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -47,40 +78,65 @@
         text-decoration: none;
         color: #fff;
         background-color: #007bff;
-        border-radius: 20px;
-        transition: background-color 0.3s, transform 0.3s;
-        transform-style: preserve-3d;
+        border-radius: 25px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
       }
 
-      a:hover {
+      a.button:hover {
         background-color: #0056b3;
-        transform: translateY(-2px);
+        transform: translateY(-3px);
       }
 
       .icon {
         margin-right: 10px;
       }
+
+      footer {
+        background-color: #f1f1f1;
+        padding: 20px;
+        text-align: center;
+        font-size: 0.9em;
+        color: #666;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+          margin: 10px;
+        }
+
+        h1 {
+          font-size: 2em;
+        }
+
+        nav h2 {
+          font-size: 1.2em;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Bem vindo ao Review Master</h1>
-
+      <h1>Bem-vindo ao Review Master</h1>
       {% if user.is_authenticated %}
-      <a href="{% url 'logout' %}">
+      <a href="{% url 'logout' %}" class="button">
         <span class="icon">🚪🏃</span>
         Logout
       </a>
       {% else %}
-      <a href="{% url 'login' %}">
+      <a href="{% url 'login' %}" class="button">
         <span class="icon">🔑</span>
         Login
       </a>
       {% endif %}
-      <a href="{% url 'movie_list' %}">
+      <a href="{% url 'movie_list' %}" class="button">
         <span class="icon">🎬</span>
-        Movies
+        Filmes
       </a>
     </div>
+    <footer>
+      &copy; 2024 Review Master. Todos os direitos reservados. | Política de Privacidade</a>
+    </footer>
   </body>
 </html>
