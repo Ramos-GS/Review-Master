@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f6f7fb 0%, #e1e2e6 100%);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+            box-sizing: border-box;
+        }
+        h1, h2 {
+            font-size: 32px;
+            color: #333333;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+        h1::after, h2::after {
+            content: '';
+            width: 50px;
+            height: 4px;
+            background-color: #4ae2df;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        p, ul {
+            font-size: 16px;
+            color: #555555;
+            line-height: 1.6;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            background: #f7f7f7;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+        ul li strong {
+            font-weight: 500;
+            color: #333333;
+        }
+        ul li em {
+            color: #4ae2df;
+            font-style: normal;
+            font-weight: 500;
+        }
+        a {
+            color: #4ae2df;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #33bab8;
+        }
+        .review-links {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .review-links a {
+            background: #4ae2df;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .review-links a:hover {
+            background: #33bab8;
+        }
+        .back-button {
+            display: block;
+            background: #4ae2df;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            text-align: center;
+            margin: 20px auto;
+            width: 150px;
+        }
+        .back-button:hover {
+            background: #33bab8;
+        }
+        .trailer-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .trailer-container iframe {
+            width: 100%;
+            max-width: 600px;
+            height: 315px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ movie.title }}</h1>
+        <p>{{ movie.overview }}</p>
+
+        <div class="trailer-container">
+            <h2>Trailer</h2>
+            <iframe src="{{ trailer_url }}" allowfullscreen></iframe>
+        </div>
+
+        <h2>Reviews</h2>
+        {% if reviews %}
+            <ul>
+                {% for review in reviews %}
+                    <li>
+                        <strong>{{ review.user.username }}:</strong> {{ review.comment }}
+                        <br>
+                        <em>Rating: {{ review.rating }}/5</em>
+                        {% if request.user == review.user or request.user.is_staff %}
+                            <div class="review-links">
+                                <a href="{% url 'edit_review' review_id=review.id %}">Edit</a>
+                                <a href="{% url 'delete_review' review_id=review.id %}">Delete</a>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reviews yet. Be the first to review this movie!</p>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_review' movie_id=movie.id %}" class="back-button">Add a Review</a>
+        {% else %}
+            <p><a href="{% url 'login' %}">Log in</a> to add a review.</p>
+        {% endif %}
+        <a href="#" class="back-button" onclick="window.history.back();">Back</a>
+    </div>
+</body>
+</html>
