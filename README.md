@@ -1,136 +1,140 @@
 # Review-Master
 
+## Plataforma de Reviews de Filmes
 
-## Plataforma de Reviews de Filmes, Séries e Jogos
+### Descrição
 
-## Descrição
+Review-Master é uma plataforma web para que os usuários possam visualizar, adicionar, editar e excluir críticas de filmes. A aplicação é construída utilizando o framework Django e segue o modelo MVT (Model-View-Template).
 
-Este projeto é uma API para uma plataforma de reviews de filmes, séries e jogos. A API é construída utilizando Django no modelo MVT (Model-View-Template) e segue o fluxo de trabalho Git Flow. As principais funcionalidades incluem autenticação de usuários, telas de login, visualização de reviews e criação de novos reviews.
-
-## Funcionalidades
+### Funcionalidades
 
 - **Autenticação de Usuários:**
   - Registro de novos usuários
   - Login de usuários existentes
   - Logout
 
-- **Reviews:**
-  - Visualização de reviews
-  - Criação de novos reviews
-  - Edição e exclusão de reviews
+- **Críticas de Filmes:**
+  - Visualização de filmes
+  - Detalhes de uma filme específica
+  - Criação de novas críticas
+  - Edição de críticas existentes
+  - Exclusão de críticas
 
-## Tecnologias Utilizadas
+### Tecnologias Utilizadas
 
+- Python
 - Django
-- Django Rest Framework
-- SQLite (pode ser alterado para outro banco de dados conforme necessidade)
-- Git
+- SQLite (padrão, pode ser alterado para outro banco de dados)
+- HTML/CSS para templates
 
-## Requisitos
+### Requisitos
 
 - Python 3.x
 - Git
 
-## Instalação
+### Instalação
 
 1. Clone o repositório:
 
-```bash
-git clone https://github.com/Ramos-GS/Review-Master.git
-cd reviws
-```
+    ```bash
+    git clone https://github.com/Ramos-GS/Review-Master.git
+    cd Review-Master
+    ```
 
 2. Crie um ambiente virtual e ative-o:
 
-```bash
-python -m venv .env
-```
-2. 1. Ative o ambiente virtual
-```bash
-.env\Scritps\activate
-```
+    ```bash
+    python -m venv .env
+    ```
+
+    Ative o ambiente virtual:
+
+    - No Windows:
+    
+      ```bash
+      .env\Scripts\activate
+      ```
+
+    - No macOS/Linux:
+    
+      ```bash
+      source .env/bin/activate
+      ```
 
 3. Instale as dependências:
 
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 4. Configure o banco de dados e execute as migrações:
 
-```bash
-python manage.py migrate
-```
+    ```bash
+    python manage.py migrate
+    ```
 
-5. Crie um superusuário para acessar o admin do Django:
+5. Inicie o servidor de desenvolvimento:
 
-```bash
-python manage.py createsuperuser
-```
+    ```bash
+    python manage.py runserver
+    ```
 
-6. Inicie o servidor de desenvolvimento:
+### Endpoints
 
-```bash
-python manage.py runserver
-```
+#### Autenticação
 
-## Endpoints
+- `GET /register/` - Página de registro de novos usuários
+- `GET /login/` - Página de login de usuários
+- `GET /logout/` - Logout de usuários
 
-### Autenticação
+#### Críticas de Filmes
 
-- `POST /api/auth/register/` - Registro de novos usuários
-- `POST /api/auth/login/` - Login de usuários
-- `POST /api/auth/logout/` - Logout de usuários
+- `GET /` - Página inicial
+- `GET /movies/` - Lista de todas os filmes
+- `GET /movies/<int:movie_id>/` - Detalhes de um filme específica
+- `POST /movies/<int:movie_id>/review/` - Criação de uma nova crítica
+- `GET /review/<int:review_id>/edit/` - Página de edição de uma crítica existente
+- `POST /review/<int:review_id>/edit/` - Atualização de uma crítica existente
+- `POST /review/<int:review_id>/delete/` - Exclusão de uma crítica
 
-### Reviews
-
-- `GET /api/reviews/` - Lista de reviews
-- `POST /api/reviews/` - Criação de novos reviews
-- `GET /api/reviews/<id>/` - Detalhe de um review específico
-- `PUT /api/reviews/<id>/` - Atualização de um review específico
-- `DELETE /api/reviews/<id>/` - Exclusão de um review específico
-
-## Estrutura do Projeto
+### Estrutura do Projeto
 
 ```plaintext
-project-root/
-│
-├── manage.py
-├── Pipfile
-├── Pipfile.lock
-│
-├── reviews/  # Aplicação Django para reviews
-│   ├── migrations/
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│
-├── users/  # Aplicação Django para autenticação de usuários
-│   ├── migrations/
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│
-└── project_name/  # Configurações do projeto Django
-    ├── settings.py
-    ├── urls.py
-    ├── wsgi.py
-```
-
-## Contribuição
-
-Este projeto segue o modelo de Git Flow para gerenciamento de branches. Para contribuir, siga os seguintes passos:
-
-1. Crie um fork do projeto
-2. Crie uma branch para sua feature ou correção de bug (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
-4. Envie para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+Review-Master/
+├── .gitignore
+├── README.md
+├── requirements.txt
+└── core/
+    ├── manage.py
+    ├── core/
+    │   ├── __init__.py
+    │   ├── asgi.py
+    │   ├── settings.py
+    │   ├── urls.py
+    │   └── wsgi.py
+    └── movies/
+        ├── .env.template
+        ├── __init__.py
+        ├── admin.py
+        ├── apps.py
+        ├── forms.py
+        ├── models.py
+        ├── tests.py
+        ├── urls.py
+        ├── utils.py
+        ├── views.py
+        ├── migrations/
+        │   ├── 0001_initial.py
+        │   ├── 0002_alter_review_movie_alter_review_rating.py
+        │   └── __init__.py
+        ├── templates/
+        │   ├── add_review.html
+        │   ├── edit_review.html
+        │   ├── home.html
+        │   ├── login.html
+        │   ├── movie_detail.html
+        │   ├── movie_list.html
+        │   └── register.html
+        └── templatetags/
+            ├── __init__.py
+            └── movies_extras.py
